@@ -4,4 +4,5 @@ export type Colors = {
   title: string;
   text: string;
   red: string;
+  white: string;
 }

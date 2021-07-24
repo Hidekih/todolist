@@ -5,5 +5,6 @@ export default {
   background_secondary: '#FFF3E0',
   title: '#222',
   text: '#333',
-  red: '#FF4545'
+  red: '#FF4545',
+  white: '#f9f9f9',
 } as Colors;
