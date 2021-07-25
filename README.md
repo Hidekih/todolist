@@ -1,10 +1,11 @@
 # react-native-todolist
-Todolist app feito em React native para um teste lógico.
+Todolist app desenvolvido em React native para um teste lógico.
 
 ## Tecnologias usadas:
 - React Native
 - Typescript
-
+- Redux
+- AsyncStorage
 
 ## Layout
 
