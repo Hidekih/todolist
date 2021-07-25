@@ -1,74 +1,69 @@
-import React from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { 
   View, 
   ScrollView, 
   Text, 
-  TouchableOpacity, 
   Image,
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { TodoCard } from '../../components/TodoCard';
 import Colors from '../../styles/colors';
 
-import plusIcon from '../../assets/plus.png';
-import arrowLeft from '../../assets/arrow-left.png';
 import tasksImg from '../../assets/tasks.png';
+import arrowLeft from '../../assets/arrow-left.png';
 
 import { LinearGradientBg } from '../../components/LinearGradientBg';
-import { AddToDoModal } from '../../components/AddTodoModal';
 import { useNavigation } from '@react-navigation/native';
-import { useCallback } from 'react';
 
 import styles from './styles';
+import Header from '../../components/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers';
+import { fetchTodo, removeTodo } from '../../store/actions/todo';
 
 export function ImportantTodo() {
   const { goBack } = useNavigation();
 
+  const { todoAmount, todoList } = useSelector((state: RootState) => state.todoReducer);
+  const dispatch = useDispatch();
+
+  const importantTodo = useMemo(() => {
+    return  todoList.filter(todo => todo.isImportant );
+  },[todoList]);
+
+  const importantTodoAmount = useMemo(() => {
+    return importantTodo.length;
+  }, [importantTodo]);
+
+  useEffect(() => {
+    dispatch(fetchTodo());
+  }, []);
+
   const handleGoBack = useCallback(() => {
     goBack();
   }, [goBack]);
-
-  function handleOpenModal() {};
-
-  function handleAddTodo() {};
-
-  function handleDeleteTodo() {};
 
   return (
     <View style={styles.container}>
       <LinearGradientBg 
         colors={[ Colors.background_primary, Colors.background_secondary ]}
       />
-      <AddToDoModal />
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack}>
-          <View style={styles.headerButton}>
-            <Image source={arrowLeft}/>
-          </View>
-        </TouchableOpacity>
+      <Header canGoBack={true} />
 
-        <Text style={styles.title}>
-          Olá, <Text style={styles.bold}>Alexandre</Text> 
-        </Text>
-  
-        <TouchableOpacity>
-          <View style={styles.headerButton}>
-            <Image source={plusIcon}/>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      { [1].length > 0 ? (
+      { importantTodo.length > 0 ? (
         <>
           <Text style={styles.listTitle}>
-            Você tem <Text style={styles.bold}>3</Text> tarefas <Text style={styles.bold}>importantes!</Text>
+            Você tem <Text style={styles.bold}>{importantTodoAmount}</Text> tarefas <Text style={styles.bold}>importantes!</Text>
           </Text>
           <ScrollView>
-          
-            <TodoCard title={'Estudar Redux'} isImportant={true} handleDelete={() => console.log('s  ')} />
-            <TodoCard title={'Estudar Mandioca'} isImportant={true} handleDelete={() => console.log('s')} />
-            <TodoCard title={'Estudar Pastel'} isImportant={true} handleDelete={() => console.log('s')} />
-
+            { importantTodo.map(todo => (
+              <TodoCard 
+                key={todo.id}
+                title={todo.title} 
+                isImportant={todo.isImportant} 
+                handleDelete={() => dispatch(removeTodo(todo.id))} 
+              />
+            ))}
           </ScrollView>
           <Text style={styles.listTitle}>
             Você tem <Text style={styles.bold}>5</Text> tarefas no <Text style={styles.bold}>total!</Text>

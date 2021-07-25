@@ -5,22 +5,10 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    height: 56,
-  },
   title: {
     fontSize: 20,
     textAlign: 'center',
     color: Colors.title,
-  },
-  headerButton: {
-    width: 32,
-    height: 32,
   },
   bold: {
     fontWeight: '700',

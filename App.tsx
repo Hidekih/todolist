@@ -3,25 +3,25 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+
+import { LinearGradientBg } from './src/components/LinearGradientBg';
+import Routes from './src/routes';
+import store from './src/store/reducers';
 
 import Colors from './src/styles/colors';
 
-import { LinearGradientBg } from './src/components/LinearGradientBg';
-import { Routes } from './src/routes';
-
 function App() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <NavigationContainer>
+    <Provider store={store}>
       <StatusBar backgroundColor={Colors.background_primary} barStyle="dark-content" />
-      <LinearGradientBg
-        colors={[ Colors.background_primary, Colors.background_secondary ]} 
-      />
-      <Routes />
-
-    </NavigationContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <LinearGradientBg
+          colors={[ Colors.background_primary, Colors.background_secondary ]} 
+        />
+        <Routes />
       </SafeAreaView>
+    </Provider>
   );
 };
 

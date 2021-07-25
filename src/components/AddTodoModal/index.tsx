@@ -1,15 +1,47 @@
 import React from 'react';
+import { useState } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from '../Button';
 import { Input } from '../Input';
+import { addTodo } from '../../store/actions/todo';
 
 import styles from './styles';
+import { useDispatch } from 'react-redux';
 
-export function AddToDoModal() {
+type AddToDoModalProps = {
+  isOpen: boolean;
+  toggleModal: () => void;
+}
+
+export function AddToDoModal({ isOpen, toggleModal }: AddToDoModalProps) {
+  const dispatch = useDispatch();
+  const [ isImportant, setIsImportant ] = useState(false);
+  const [ todoTitle, setTodoTitle ] = useState('');
+
+  function handleSetIsImportant(isImportant: boolean) {
+    setIsImportant(isImportant);
+  }
+
+  function handleSubmit() {
+    dispatch(addTodo(
+      todoTitle,
+      isImportant
+    ));
+
+    toggleModal();
+    setTodoTitle('');
+    setIsImportant(false);
+  }
+
   return (
-    <Modal animationType="slide" transparent={true} visible={false} onRequestClose={() => console.log('Quer fechar o modal.')}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)' }}>
-        <View style={{ flex: 1 }} />
+    <Modal 
+      animationType="slide" 
+      transparent={true} 
+      visible={isOpen} 
+      onRequestClose={toggleModal}
+    >
+      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)' }} >
+        <TouchableOpacity style={{ flex: 1 }} onPress={toggleModal} />
         <KeyboardAvoidingView 
           behavior={Platform.OS === 'android' ? 'padding' : 'position' } 
           style={{ flex: 1}} 
@@ -17,24 +49,29 @@ export function AddToDoModal() {
         >
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Adicione uma nova tarefa</Text>
-            <Input style={styles.modalInput} placeholder="Digite aqui a nova tarefa" />
+            <Input 
+              style={styles.modalInput} 
+              placeholder="Digite aqui a nova tarefa" 
+              value={todoTitle}
+              onChangeText={text => setTodoTitle(text)}
+            />
             <Text style={styles.modalTitle}>Deseja marcar como importante?</Text>
 
             <View style={styles.modalSelectImportantButtonsContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSetIsImportant(false)}>
                 <View style={[
                   styles.modalSelectImportantButton ,
-                  true
-                  ? {}
-                  : styles.modalSelectImportantButtonNotSelected
+                  isImportant
+                  ? styles.modalSelectImportantButtonNotSelected
+                  : {}
                 ]}>
                   <Text style={styles.modalSelectImportantButtonText}>Não</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity >
-              <View style={[
+              <TouchableOpacity onPress={() => handleSetIsImportant(true)}>
+                <View style={[
                   styles.modalSelectImportantButton ,
-                  false
+                  isImportant
                   ? {}
                   : styles.modalSelectImportantButtonNotSelected
                 ]}>
@@ -43,7 +80,11 @@ export function AddToDoModal() {
               </TouchableOpacity>
             </View>
 
-            <Button style={styles.modalSubmitButton} title="Adicionar nova tarefa"></Button>
+            <Button 
+              style={styles.modalSubmitButton} 
+              title="Adicionar nova tarefa"
+              onPress={handleSubmit}
+            />
           </View>
     
         </KeyboardAvoidingView>

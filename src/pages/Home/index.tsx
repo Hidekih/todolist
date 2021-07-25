@@ -1,71 +1,65 @@
 import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   View, 
   ScrollView, 
-  Text, 
-  TouchableOpacity, 
+  Text,
   Image,
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { TodoCard } from '../../components/TodoCard';
 import Colors from '../../styles/colors';
 
-import plusIcon from '../../assets/plus.png';
 import arrowRight from '../../assets/arrow-right.png';
 
 import dashboardImg from '../../assets/dashboard.png';
 
 import { LinearGradientBg } from '../../components/LinearGradientBg';
-import { AddToDoModal } from '../../components/AddTodoModal';
-
 import styles from './styles';
 import { useNavigation } from '@react-navigation/core';
+import Header from '../../components/Header';
+import { RootState } from '../../store/reducers';
+import { fetchTodo, removeTodo } from '../../store/actions/todo';
+import { useEffect } from 'react';
 
 export function Home() {
   const { navigate } = useNavigation();
-
-  function handleOpenModal() {};
+  const { todoAmount, todoList } = useSelector((state: RootState) => state.todoReducer);
+  const dispatch = useDispatch();
 
   const handleNavigate = useCallback(() => {
     navigate('ImportantTodo');
   }, [navigate]);
-
-  function handleAddTodo() {};
-
-  function handleDeleteTodo() {};
 
   return (
     <View style={styles.container}>
       <LinearGradientBg 
         colors={[ Colors.background_primary, Colors.background_secondary ]}
       />
-      <AddToDoModal />
-      <View style={styles.header}>
-        <View style={styles.headerButton} />
+      <Header canGoBack={false} />
 
-        <Text style={styles.title}>
-          Olá, <Text style={styles.bold}>Alexandre</Text> 
-        </Text>
-  
-        <TouchableOpacity>
-          <View style={styles.headerButton}>
-            <Image source={plusIcon}/>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      { [].length > 0 ? (
+      { todoList.length > 0 ? (
         <>
           <Text style={styles.listTitle}>
-            Você tem <Text style={styles.bold}>5</Text> tarefas para realizar!
+            Você tem <Text style={styles.bold}>{todoAmount}</Text> tarefas para realizar!
           </Text>
           <ScrollView>
-          
-            <TodoCard title={'Estudar Redux'} isImportant={true} handleDelete={() => console.log('s  ')} />
-            <TodoCard title={'Estudar Mandioca'} isImportant={false} handleDelete={() => console.log('s')} />
-            <TodoCard title={'Estudar Pastel'} isImportant={false} handleDelete={() => console.log('s')} />
-
+            { todoList.map(todo => (
+              <TodoCard key={todo.id} 
+                title={todo.title} 
+                isImportant={todo.isImportant} 
+                handleDelete={() => dispatch(removeTodo(todo.id))}
+              />
+            ))}
+           
           </ScrollView>
+          <View style={styles.bottom}>
+            <RectButton style={styles.button} onPress={handleNavigate} >
+              <Text style={styles.buttonText}>Ver importantes</Text>
+              <Image source={arrowRight} />
+            </RectButton>
+          </View>
+
         </>
       ) : (
         <>
@@ -78,13 +72,6 @@ export function Home() {
         </>
       )}
       
-      <View style={styles.bottom}>
-        <RectButton style={styles.button} onPress={handleNavigate} >
-          <Text style={styles.buttonText}>Ver importantes</Text>
-          <Image source={arrowRight} />
-        </RectButton>
-      </View>
-
     </View>
   )
 };

@@ -1,26 +1,14 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-import { Welcome } from '../pages/Welcome';
-import { Home } from '../pages/Home';
-import { ImportantTodo } from '../pages/ImportantTodo';
+import AppRoutes from './app.routes';
 
-const Stack = createStackNavigator();
-
-export function Routes() {
-  const user = true;
-  
+function Routes() {
   return (
-    <Stack.Navigator headerMode="none">
-      { user ? (
-        <>
-          <Stack.Screen name="Home" component={Home}/>
-
-          <Stack.Screen name="ImportantTodo" component={ImportantTodo}/>
-        </>
-      ) : (
-        <Stack.Screen name="Welcome" component={Welcome}/>
-      )}
-    </Stack.Navigator>
+    <NavigationContainer>
+      <AppRoutes />
+    </NavigationContainer>
   )
 }
+
+export default Routes;
