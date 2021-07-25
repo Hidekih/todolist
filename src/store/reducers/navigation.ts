@@ -5,7 +5,7 @@ export type NavigationReducerProps = {
 }
 
 type NavigationActions = {
-  type: 'SET_INITIAL_ROUTE';
+  type: '@navigation/SET_INITIAL_ROUTE';
   payload: {
     userName: string;
   }
@@ -15,10 +15,10 @@ const INITIAL_STATE: NavigationReducerProps = {
   initialRouteName: undefined,
 };
 
-export const navigationReducer: Reducer<NavigationReducerProps, NavigationActions> = 
-  (state = INITIAL_STATE, action) => {
+export const navigationReducer: Reducer<NavigationReducerProps, NavigationActions> 
+  = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SET_INITIAL_ROUTE': 
+    case '@navigation/SET_INITIAL_ROUTE': 
       if (action.payload.userName) {
         return { initialRouteName: 'Home' }
       }

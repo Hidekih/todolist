@@ -17,10 +17,9 @@ import dashboardImg from '../../assets/dashboard.png';
 import { LinearGradientBg } from '../../components/LinearGradientBg';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/core';
-import Header from '../../components/Header';
+import { Header } from '../../components/Header';
 import { RootState } from '../../store/reducers';
-import { fetchTodo, removeTodo } from '../../store/actions/todo';
-import { useEffect } from 'react';
+import { removeTodo } from '../../store/actions/todo';
 
 export function Home() {
   const { navigate } = useNavigation();
@@ -41,7 +40,8 @@ export function Home() {
       { todoList.length > 0 ? (
         <>
           <Text style={styles.listTitle}>
-            Você tem <Text style={styles.bold}>{todoAmount}</Text> tarefas para realizar!
+            Você tem <Text style={styles.bold}>{todoAmount}</Text> 
+            { todoAmount > 1 ? ' tarefas' : ' tarefa' } para realizar!
           </Text>
           <ScrollView>
             { todoList.map(todo => (

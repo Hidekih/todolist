@@ -16,7 +16,7 @@ import { LinearGradientBg } from '../../components/LinearGradientBg';
 import { useNavigation } from '@react-navigation/native';
 
 import styles from './styles';
-import Header from '../../components/Header';
+import { Header } from '../../components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { fetchTodo, removeTodo } from '../../store/actions/todo';
@@ -52,9 +52,16 @@ export function ImportantTodo() {
 
       { importantTodo.length > 0 ? (
         <>
-          <Text style={styles.listTitle}>
-            Você tem <Text style={styles.bold}>{importantTodoAmount}</Text> tarefas <Text style={styles.bold}>importantes!</Text>
-          </Text>
+          {importantTodoAmount > 1 ? (
+            <Text style={styles.listTitle}>
+              Você tem <Text style={styles.bold}>{importantTodoAmount}</Text> tarefas <Text style={styles.bold}>importantes!</Text>
+            </Text>
+          ) : (
+            <Text style={styles.listTitle}>
+              Você tem <Text style={styles.bold}>{importantTodoAmount}</Text> tarefa <Text style={styles.bold}>importante!</Text>
+            </Text>
+          )}
+
           <ScrollView>
             { importantTodo.map(todo => (
               <TodoCard 
@@ -65,8 +72,11 @@ export function ImportantTodo() {
               />
             ))}
           </ScrollView>
+
           <Text style={styles.listTitle}>
-            Você tem <Text style={styles.bold}>5</Text> tarefas no <Text style={styles.bold}>total!</Text>
+            Você tem <Text style={styles.bold}>{todoAmount}</Text>
+            { todoAmount > 1 ? ' tarefas ' : ' tarefa '}
+            no <Text style={styles.bold}>total!</Text>
           </Text>
         </>
       ) : (

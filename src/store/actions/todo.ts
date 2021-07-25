@@ -1,4 +1,4 @@
-import { ActionCreator } from 'redux';
+import { Dispatch } from 'redux';
 import { TodoProps } from '../../storage/todo';
 import { save, load, remove } from '../../storage/todo';
 
@@ -12,7 +12,7 @@ export function setTodoList(todoList: TodoProps[]) {
 }
 
 export function fetchTodo(){
-  return (dispath) => {
+  return (dispath: Dispatch) => {
     return load().then(data => {
       if (data) {
         dispath(setTodoList(data));
@@ -33,7 +33,7 @@ function reducerAddTodo(title: string, isImportant: boolean) {
 };
 
 export function addTodo(title: string, isImportant: boolean) {
-  return (dispath) => {
+  return (dispath: Dispatch) => {
     return save(title, isImportant).then(_ => {
       dispath(reducerAddTodo(title, isImportant));
       return;
@@ -42,7 +42,7 @@ export function addTodo(title: string, isImportant: boolean) {
 }
 
 export function removeTodo(id: number) {
-  return (dispath) => {
+  return (dispath: Dispatch) => {
     return remove(id).then(data => {
       if (data) {
         dispath(setTodoList(data));

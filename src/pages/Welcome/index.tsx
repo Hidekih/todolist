@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../store/reducers'
 
 import { LinearGradientBg } from '../../components/LinearGradientBg';
@@ -21,7 +21,7 @@ import { save } from "../../storage/user";
 import { useNavigation } from "@react-navigation/native";
 import { setName } from "../../store/actions/user";
 
-const Welcome = () => {
+export const Welcome = () => {
   const { name } = useSelector((state: RootState) => state.userReducer);
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
@@ -56,4 +56,3 @@ const Welcome = () => {
   )
 }
 
-export default connect()(Welcome);

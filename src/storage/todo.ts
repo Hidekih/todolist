@@ -12,8 +12,6 @@ export async function load() {
     const data = await AsyncStorage.getItem('@todolist:list');
     const parsedData = data ? JSON.parse(data) as TodoProps[] : [];
 
-    console.log(parsedData)
-
     return parsedData;
   } catch {
     Alert.alert(
@@ -32,7 +30,7 @@ export async function save(todoTitle: string, isImportant: boolean) {
     const parsedData = data ? JSON.parse(data) as TodoProps[] : [];
 
     const todo = {
-      id: parsedData.length,
+      id: parsedData.length + 1,
       title: todoTitle,
       isImportant,
     };
@@ -41,8 +39,6 @@ export async function save(todoTitle: string, isImportant: boolean) {
       ...parsedData,
       todo
     ]));
-
-    console.log(todo)
 
     return;
   } catch {
@@ -63,7 +59,14 @@ export async function remove(id: number) {
     
     const updatedList = parsedData.filter(todo => todo.id !== id);
 
-    await AsyncStorage.setItem('@todolist:list', JSON.stringify(updatedList));
+    const listUpdatedId = updatedList.map((todo, index) => {
+      return {
+        ...todo,
+        id: index
+      }
+    })
+
+    await AsyncStorage.setItem('@todolist:list', JSON.stringify(listUpdatedId));
 
     return updatedList;
   } catch {

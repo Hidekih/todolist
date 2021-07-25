@@ -1,8 +1,9 @@
+import { Dispatch } from 'redux';
 import { load as loadName } from '../../storage/user';
 
 export function setName(name: string) {
   return {
-    type: 'SET_NAME',
+    type: '@user/SET_NAME',
     payload: {
       name
     }
@@ -10,7 +11,7 @@ export function setName(name: string) {
 }
 
 export function fetchName() {
-  return (dispath) => {
+  return (dispath: Dispatch) => {
     return loadName().then(res => {
       if (res) {
         dispath(setName(res));

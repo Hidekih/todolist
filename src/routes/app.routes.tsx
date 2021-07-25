@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack'; 
 
-import Welcome from '../pages/Welcome';
+import { Welcome } from '../pages/Welcome';
 import { Home } from '../pages/Home';
 import { ImportantTodo } from '../pages/ImportantTodo';
 
@@ -10,12 +10,12 @@ import { fetchName } from "../store/actions/user";
 import { setInitialRoute } from "../store/actions/navigation";
 import { RootState } from '../store/reducers';
 import { ActivityIndicator, View } from 'react-native';
-import { load } from '../storage/user';
+import { load, save } from '../storage/user';
 import { fetchTodo } from '../store/actions/todo';
 
 const Stack = createStackNavigator();
 
-function AppRoutes() {
+export function AppRoutes() {
   const dispatch = useDispatch();
   const { initialRouteName } = useSelector((state: RootState) => state.navigationReducer);
 
@@ -24,7 +24,10 @@ function AppRoutes() {
       dispatch(fetchName());
       dispatch(fetchTodo());
       const name = await load()
-      dispatch(setInitialRoute(String(name)));
+      if (name) {
+        dispatch(setInitialRoute(name));
+      }
+      dispatch(setInitialRoute(''));
     }
 
     fethData();
@@ -48,5 +51,3 @@ function AppRoutes() {
     </Stack.Navigator>
   )
 }
-
-export default connect()(AppRoutes);

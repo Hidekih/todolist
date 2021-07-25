@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import plusIcon from '../../assets/plus.png';
 import arrowLeft from '../../assets/arrow-left.png';
@@ -15,7 +15,7 @@ type HeaderProps = {
   canGoBack: boolean;
 }
 
-function Header({ canGoBack }: HeaderProps) {
+export function Header({ canGoBack }: HeaderProps) {
   const { goBack } = useNavigation();
   const { name } = useSelector((state: RootState) => state.userReducer);
 
@@ -57,5 +57,3 @@ function Header({ canGoBack }: HeaderProps) {
     </>
   )
 }
-
-export default connect()(Header);

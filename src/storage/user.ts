@@ -20,6 +20,7 @@ export async function load() {
 export async function save(name: string) {
   try {
     await AsyncStorage.setItem('@todolist:userName', name);
+
     return;
   } catch (err) {
     Alert.alert(
