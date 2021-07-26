@@ -42,12 +42,12 @@ export function AddToDoModal({ isOpen, toggleModal }: AddToDoModalProps) {
     >
       <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)' }} >
         <TouchableOpacity style={{ flex: 1 }} onPress={toggleModal} />
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === 'android' ? 'padding' : 'position' } 
-          style={{ flex: 1}} 
-          contentContainerStyle={{ flex: 1}}
-        >
           <View style={styles.modalContent}>
+          <KeyboardAvoidingView 
+            behavior={'position'} 
+            style={{ flex: 1 }} 
+            contentContainerStyle={{ flex: 1, alignItems: 'center',}}
+          >
             <Text style={styles.modalTitle}>Adicione uma nova tarefa</Text>
             <Input 
               style={styles.modalInput} 
@@ -80,14 +80,12 @@ export function AddToDoModal({ isOpen, toggleModal }: AddToDoModalProps) {
               </TouchableOpacity>
             </View>
 
-            <Button 
-              style={styles.modalSubmitButton} 
-              title="Adicionar nova tarefa"
-              onPress={handleSubmit}
-            />
+            <TouchableOpacity style={styles.modalSubmitButton} onPress={handleSubmit}>
+              <Text style={styles.modalSubmitButtonTitle}>Adicionar nova tarefa</Text>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
           </View>
     
-        </KeyboardAvoidingView>
       </View>
     </Modal>
   )
