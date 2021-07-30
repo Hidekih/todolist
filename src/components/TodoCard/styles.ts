@@ -37,6 +37,7 @@ export default StyleSheet.create({
   },
   cardText: {
     color: Colors.title,
+    fontFamily: 'Roboto',
     fontSize: 18,
   },
   actionContainer: {

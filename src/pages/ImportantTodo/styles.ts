@@ -41,6 +41,7 @@ export default StyleSheet.create({
   buttonText: {
     marginHorizontal: 18,
     fontSize: 20,
+    fontFamily: 'Roboto',
     fontWeight: '700',
     color: Colors.title,
   }

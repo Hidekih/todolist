@@ -14,6 +14,7 @@ export default StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     color: Colors.title,
+    fontFamily: 'Roboto',
     fontWeight: '700',
     marginTop: 18,
   },

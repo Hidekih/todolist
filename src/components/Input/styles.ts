@@ -7,6 +7,7 @@ export default StyleSheet.create({
     height: 52,
     marginHorizontal: 18,
     fontSize: 18,
+    fontFamily: 'Roboto',
     textAlign: 'center',
     borderBottomColor: Colors.title,
     color: Colors.text,

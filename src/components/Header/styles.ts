@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontFamily: 'Roboto',
     textAlign: 'center',
     color: Colors.title,
   },
