@@ -23,11 +23,15 @@ export function AddToDoModal({ isOpen, toggleModal }: AddToDoModalProps) {
   }
 
   function handleSubmit() {
+    if(!todoTitle) {
+      return;
+    }
+
     dispatch(addTodo(
       todoTitle,
       isImportant
     ));
-
+    
     toggleModal();
     setTodoTitle('');
     setIsImportant(false);
