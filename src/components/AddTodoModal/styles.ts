@@ -44,17 +44,5 @@ export default StyleSheet.create({
   },
   modalSubmitButton: {
     marginTop: 18,
-    width: 280,
-    height: 52,
-    marginHorizontal: 18,
-    borderRadius: 12,
-    backgroundColor: Colors.background_primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalSubmitButtonTitle: {
-    fontSize: 20,
-    color: Colors.title,
-    fontWeight: '700',
   },
 })

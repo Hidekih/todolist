@@ -9,9 +9,10 @@ export type TodoReducerProps = {
 type ToDoActions = {
   type: '@todo/SET_TODOLIST' | '@todo/ADD_TODO' | '@todo/REMOVE_TODO';
   payload: {
-    todoList?: TodoProps[];
-    title?: string;
+    id?: number;
     isImportant?: boolean;
+    title?: string;
+    todoList?: TodoProps[];
   };
 }
 
@@ -31,7 +32,7 @@ export const todoReducer: Reducer<TodoReducerProps, ToDoActions> = (state = INIT
     case '@todo/ADD_TODO': 
       return { 
         todoList: [ ...state.todoList, { 
-          id: state.todoList.length + 1,
+          id: action.payload.id,
           title: action.payload.title,
           isImportant: action.payload.isImportant
         } as TodoProps ], 

@@ -7,13 +7,13 @@ import trashIcon from '../../assets/trash.png';
 
 import styles from './styles';
 
-type TodoCard = {
+type TodoCardProps = {
   title: string;
   isImportant: boolean;
   handleDelete: () => void;
 }
 
-export function TodoCard({ title, isImportant, handleDelete }: TodoCard) {
+export function TodoCard({ title, isImportant, handleDelete }: TodoCardProps) {
   return (
     <View style={styles.container}>
       <Swipeable overshootRight={false} renderRightActions={() => (

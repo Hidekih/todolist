@@ -29,8 +29,10 @@ export async function save(todoTitle: string, isImportant: boolean) {
     const data = await AsyncStorage.getItem('@todolist:list');
     const parsedData = data ? JSON.parse(data) as TodoProps[] : [];
 
+    const id = new Date().getTime();
+
     const todo = {
-      id: parsedData.length + 1,
+      id,
       title: todoTitle,
       isImportant,
     };
@@ -40,7 +42,7 @@ export async function save(todoTitle: string, isImportant: boolean) {
       todo
     ]));
 
-    return;
+    return todo;
   } catch {
     Alert.alert(
       "Erro",
@@ -59,14 +61,7 @@ export async function remove(id: number) {
     
     const updatedList = parsedData.filter(todo => todo.id !== id);
 
-    const listUpdatedId = updatedList.map((todo, index) => {
-      return {
-        ...todo,
-        id: index
-      }
-    })
-
-    await AsyncStorage.setItem('@todolist:list', JSON.stringify(listUpdatedId));
+    await AsyncStorage.setItem('@todolist:list', JSON.stringify(updatedList));
 
     return updatedList;
   } catch {

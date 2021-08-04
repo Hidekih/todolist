@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import plusIcon from '../../assets/plus.png';
@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RootState } from '../../store/reducers';
 import { toggleModal } from '../../store/actions/modal';
 import { AddToDoModal } from '../AddTodoModal';
+import { Button } from '../Button';
 
 type HeaderProps = {
   canGoBack: boolean;
@@ -17,14 +18,13 @@ type HeaderProps = {
 
 export function Header({ canGoBack }: HeaderProps) {
   const { goBack } = useNavigation();
-  const { name } = useSelector((state: RootState) => state.userReducer);
-
   const dispatch = useDispatch();
+  const { name } = useSelector((state: RootState) => state.userReducer);
   const { isOpen } = useSelector((state: RootState) => state.modalReducer);
 
   function handleToggleModal() {
     dispatch(toggleModal(isOpen))
-  };
+  }
 
   const handleGoBack = useCallback(() => {
     goBack();
@@ -32,7 +32,14 @@ export function Header({ canGoBack }: HeaderProps) {
 
   return (
     <>
-      <AddToDoModal isOpen={isOpen} toggleModal={handleToggleModal} />
+      <Modal 
+        animationType="slide" 
+        transparent={true} 
+        visible={isOpen} 
+        onRequestClose={handleToggleModal}
+      >
+        <AddToDoModal toggleModal={handleToggleModal} />
+      </Modal>
       <View style={styles.header}>
         { canGoBack ? (
           <TouchableOpacity onPress={handleGoBack}>
